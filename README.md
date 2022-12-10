@@ -25,9 +25,36 @@ X-VLM (216M parameters: swin-base + 6L text + 6L cross):
 </div>
 
 
-## Hiring
-We are looking for interns / FTEs at ByteDance AI-LAB (in Beijing / Shanghai)! If you are interested in working with us on vision language models, please send your resume to 
-zhangxinsong.0320@bytedance.com.
+## Replicated Results
+The results for this paper using official code and released trained model is done and can be seen in 597_Final_Project.ipynb file and executed in Google Colab.
+Below are the steps followed.
+- Clone the repo to colab environment
+- Download the official MSCOCO and Flicker30k datasets from the website and put it in the appropriate folder shown below
+- Download and put the trained model from the like given in git repo for respective task
+- Install the required packages given in requirement.txt file using pip command
+- Instead of downloding the BERT base tokenizer, I imported the trained tokenizer from transformers package
+```angular2html
+from transformers import BertTokenizer
+tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
+```
+- As original model is trained on multiple GPUs and Google Colab have only one GPU, pass the distribution argument while evaluating. Below are the commands for the tasks results have been replicated
+```angular2html
+# Image and Text retrieval task on COCO dataset
+python3 run.py --task "itr_coco" --dist "gpu0" --evaluate  --output_dir "output/" --checkpoint "checkpoint_9.pth" 
+
+# Image and Text retrieval task on Flicker30k dataset
+python3 run.py --task "itr_flickr" --dist "gpu0" --evaluate  --output_dir "output/" --checkpoint "checkpoint_9.pth" 
+
+#Image Captioning on coco dataset
+python3 run.py --task "coco_captioning" --dist "gpu0" --evaluate  --output_dir "output/" --checkpoint "coco_capt_ft_epoch_4.th" 
+
+#COCO captioning after CIDEr optimization
+python3 run.py --task "coco_captioning_scst" --dist "gpu0" --evaluate  --output_dir "output/" --checkpoint "coco_capt_cider_step_42500.th"
+```
+- Results can be seen in 597_Final_Project.ipynb folder.
+
+
+
 
 
 ## Features

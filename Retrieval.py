@@ -18,7 +18,8 @@ import torch.distributed as dist
 
 from models.model_retrieval import XVLM
 
-from models.tokenization_bert import BertTokenizer
+# from models.tokenization_bert import BertTokenizer
+from transformers import BertTokenizer
 from models.tokenization_roberta import RobertaTokenizer
 
 import utils
@@ -239,7 +240,7 @@ def main(args, config):
     if config['use_roberta']:
         tokenizer = RobertaTokenizer.from_pretrained(config['text_encoder'])
     else:
-        tokenizer = BertTokenizer.from_pretrained(config['text_encoder'])
+        tokenizer = BertTokenizer.from_pretrained("bert-base-uncased")
 
     print("Creating retrieval dataset", flush=True)
     train_dataset, val_dataset, test_dataset = create_dataset('re', config, args.evaluate)
